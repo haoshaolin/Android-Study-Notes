@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">AndroidStudyNotesDemo</string>
+
+
+    <string name="activity">Activity</string>
+
+    <string name="life_cycle_des">演示Activity生命周期\n启动模式为standard</string>
+    <string name="single_top_des">我的启动模式为singleTop</string>
+    <string name="single_task_des">我的启动模式为singleTask</string>
+    <string name="single_instance_des">我的启动模式为singleInstance</string>
+</resources>

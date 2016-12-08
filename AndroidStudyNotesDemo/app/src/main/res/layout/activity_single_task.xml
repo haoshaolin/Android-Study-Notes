@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_single_task"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="#71decd"
+    tools:context="com.soros.androidstudynotes.activity.SingleTaskActivity">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textSize="20sp"
+        android:text="@string/single_task_des"
+        android:textColor="#a91d11"
+        android:id="@+id/textView"
+        android:layout_centerHorizontal="true"/>
+
+    <Button
+        android:text="start standard Activity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:background="#9f3131"
+        android:textColor="#ffffff"
+        android:layout_marginTop="16dp"
+        android:onClick="onStartStandard"
+        android:textAllCaps="false"
+        android:id="@+id/standardBtn" />
+
+    <Button
+        android:text="start singleTop Activity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/standardBtn"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="16dp"
+        android:id="@+id/singleTopBtn"
+        android:textColor="#ffffff"
+        android:background="#8abf1f"
+        android:onClick="onStartSingleTop"
+        android:layout_alignParentRight="true"
+        android:textAllCaps="false"
+        android:layout_alignParentEnd="true" />
+
+    <Button
+        android:text="start singleTask Activity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/singleTopBtn"
+        android:layout_marginTop="16dp"
+        android:id="@+id/singleTaskBtn"
+        android:textColor="#ffffff"
+        android:background="#6626a9"
+        android:onClick="onStartSingleTask"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentLeft="true"
+        android:textAllCaps="false"
+        android:layout_alignParentStart="true" />
+
+    <Button
+        android:text="start singleInstance Activity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/singleTaskBtn"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="16dp"
+        android:textColor="#ffffff"
+        android:background="#12bcab"
+        android:onClick="onStartSingleInstance"
+        android:id="@+id/singleInstanceBtn"
+        android:layout_alignParentRight="true"
+        android:textAllCaps="false"
+        android:layout_alignParentEnd="true" />
+</RelativeLayout>
