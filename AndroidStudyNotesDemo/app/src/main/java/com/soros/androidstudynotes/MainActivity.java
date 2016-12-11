@@ -2,15 +2,12 @@ package com.soros.androidstudynotes;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.*;
-import android.support.v7.widget.DividerItemDecoration;
-import android.text.Layout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,12 +16,15 @@ import android.widget.TextView;
 
 
 import com.soros.androidstudynotes.activity.LifeCycleActivity;
+import com.soros.androidstudynotes.service.ServiceStudyActivity;
+import com.soros.androidstudynotes.utils.ShortcutUtil;
 
 import java.util.ArrayList;
 
 
 public class MainActivity extends AppCompatActivity implements BaseViewHolder.OnRecyclerItemClick {
 
+    private final String TAG = MainActivity.class.getSimpleName();
     private ArrayList<MenuEntity> mItems;
     private RecyclerView mRecyclerView;
 
@@ -33,21 +33,34 @@ public class MainActivity extends AppCompatActivity implements BaseViewHolder.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        addShortcut();
 
         initDatas();
+        initRecyclerView();
+    }
 
+    private void addShortcut() {
+
+        if(ShortcutUtil.hasShortcut(MainActivity.this, getString(R.string.app_name))) {
+            Log.d(TAG, "===========hasInstallShortcut===========");
+            ShortcutUtil.deleteShortCut(MainActivity.this, R.string.app_name);
+        } else {
+            Log.d(TAG, "===========hasNotInstallShortcut===========");
+            sendBroadcast(ShortcutUtil.getShortcutToDesktopIntent(MainActivity.this, R.string.app_name, R.drawable.common_google_signin_btn_icon_light_disabled));
+        }
+    }
+
+    private void initRecyclerView() {
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setAdapter(new MenuAdapter(getApplicationContext(), this));
-        mRecyclerView.addItemDecoration(new DividerItemDecoration(getApplicationContext(), LinearLayoutManager.HORIZONTAL));
     }
 
     private void initDatas() {
         mItems = new ArrayList<>();
         mItems.add(new MenuEntity(R.string.activity, LifeCycleActivity.class));
-        mItems.add(new MenuEntity(R.string.activity, LifeCycleActivity.class));
+        mItems.add(new MenuEntity(R.string.service, ServiceStudyActivity.class));
         mItems.add(new MenuEntity(R.string.activity, LifeCycleActivity.class));
         mItems.add(new MenuEntity(R.string.activity, LifeCycleActivity.class));
     }

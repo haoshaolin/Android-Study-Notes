@@ -8,12 +8,21 @@ import android.view.View;
 
 import com.soros.androidstudynotes.R;
 
+import java.util.Random;
+
 /**
  *  Android生命周期演示
  */
 public class LifeCycleActivity extends AppCompatActivity {
 
     private final String TAG = LifeCycleActivity.class.getSimpleName();
+
+    private String mStrData;
+    private Thread mTestThread;
+    class BigData {
+        Thread thread;
+        String strData;
+    }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
@@ -51,9 +60,17 @@ public class LifeCycleActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    private BigData getBigData() {
+        BigData bigData = new BigData();
+        bigData.strData = mStrData;
+        bigData.thread = mTestThread;
+        return bigData;
+    }
+
     @Override
     public Object onRetainCustomNonConfigurationInstance() {
-        return super.onRetainCustomNonConfigurationInstance();
+        Log.d(TAG, "==============onRetainCustomNonConfigurationInstance()=============");
+        return getBigData();
     }
 
 
@@ -62,6 +79,25 @@ public class LifeCycleActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Log.d(TAG, "==============onCreate()=============");
         setContentView(R.layout.activity_life_cycle);
+
+        final BigData bigData = (BigData) getLastCustomNonConfigurationInstance();
+        if(bigData == null) {
+            Random random = new Random(1000);
+            mStrData = "I am Big Data " + random.nextInt(9999);
+            mTestThread = new Thread() {
+                @Override
+                public void run() {
+                    try {
+                        sleep(30000);
+                        Log.d(TAG, "==================Thread is waked.===================");
+                    }catch (InterruptedException e) {
+                        e.printStackTrace();
+                        Log.d(TAG, "==================Thread is interrupted.======================");
+                    }
+                }
+            };
+            mTestThread.start();
+        }
     }
 
     @Override

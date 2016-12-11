@@ -20,6 +20,7 @@ public class ActivityTest extends AppCompatActivity {
 
     public void onStartSingleTop(View view) {
         Intent intent = new Intent("study.intent.action.SINGLETOP_ACTIVITY");
+        intent.addCategory("study.intent.category.SINGLETOP");
         startActivity(intent);
     }
 
