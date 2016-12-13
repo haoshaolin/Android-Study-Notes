@@ -1,100 +1,107 @@
 package com.soros.androidstudynotes;
+/*
+ * Copyright (C) 2014 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * limitations under the License.
+ */
 
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
-import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 
+
+/**
+ * This class is from the v7 samples of the Android SDK. It's not by me!
+ * <p/>
+ * See the license above for details.
+ */
 public class DividerItemDecoration extends RecyclerView.ItemDecoration {
 
-    private int orientation = LinearLayoutManager.VERTICAL;
+    private static final int[] ATTRS = new int[]{
+            android.R.attr.listDivider
+    };
+
+    public static final int HORIZONTAL_LIST = LinearLayoutManager.HORIZONTAL;
+
+    public static final int VERTICAL_LIST = LinearLayoutManager.VERTICAL;
+
     private Drawable mDivider;
-    private int[] attrs = new int[]{android.R.attr.listDivider};
+
+    private int mOrientation;
 
     public DividerItemDecoration(Context context, int orientation) {
-        TypedArray typedArray = context.obtainStyledAttributes(attrs);
-        mDivider = typedArray.getDrawable(0);
-        typedArray.recycle();
-        setOrientation(orientation);
-    }
-
-    public DividerItemDecoration(Context context, int orientation, int resId){
-        mDivider = context.getResources().getDrawable(resId);
+        final TypedArray a = context.obtainStyledAttributes(ATTRS);
+        mDivider = a.getDrawable(0);
+        a.recycle();
         setOrientation(orientation);
     }
 
     public void setOrientation(int orientation) {
-        if (orientation != LinearLayoutManager.VERTICAL && orientation != LinearLayoutManager.HORIZONTAL) {
-            throw new IllegalArgumentException("this orientation is error!");
+        if (orientation != HORIZONTAL_LIST && orientation != VERTICAL_LIST) {
+            throw new IllegalArgumentException("invalid orientation");
         }
-        this.orientation = orientation;
+        mOrientation = orientation;
     }
 
     @Override
-    public void onDraw(Canvas c, RecyclerView parent, RecyclerView.State state) {
-        if (orientation == LinearLayoutManager.VERTICAL) {
+    public void onDraw(Canvas c, RecyclerView parent) {
+        Log.v("recyclerview - itemdecoration", "onDraw()");
+
+        if (mOrientation == VERTICAL_LIST) {
             drawVertical(c, parent);
         } else {
             drawHorizontal(c, parent);
         }
+
     }
 
+
+    public void drawVertical(Canvas c, RecyclerView parent) {
+        final int left = parent.getPaddingLeft();
+        final int right = parent.getWidth() - parent.getPaddingRight();
+
+        final int childCount = parent.getChildCount();
+        for (int i = 0; i < childCount; i++) {
+            final View child = parent.getChildAt(i);
+            android.support.v7.widget.RecyclerView v = new android.support.v7.widget.RecyclerView(parent.getContext());
+            final RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) child
+                    .getLayoutParams();
+            final int top = child.getBottom() + params.bottomMargin;
+            final int bottom = top + mDivider.getIntrinsicHeight();
+            mDivider.setBounds(left, top, right, bottom);
+            mDivider.draw(c);
+        }
+    }
+
+    public void drawHorizontal(Canvas c, RecyclerView parent) {
+        final int top = parent.getPaddingTop();
+        final int bottom = parent.getHeight() - parent.getPaddingBottom();
+
+        final int childCount = parent.getChildCount();
+        for (int i = 0; i < childCount; i++) {
+            final View child = parent.getChildAt(i);
+            final RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) child
+                    .getLayoutParams();
+            final int left = child.getRight() + params.rightMargin;
+            final int right = left + mDivider.getIntrinsicHeight();
+            mDivider.setBounds(left, top, right, bottom);
+            mDivider.draw(c);
+        }
+    }
 
     @Override
-    public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
-        //先调用getItemOffsets获取条目之间的间隙
-        //获得条目的偏移量(所有的条目都回调用一次该方法)
-        if (orientation == LinearLayoutManager.VERTICAL) {//垂直的画水平线
+    public void getItemOffsets(Rect outRect, int itemPosition, RecyclerView parent) {
+        if (mOrientation == VERTICAL_LIST) {
             outRect.set(0, 0, 0, mDivider.getIntrinsicHeight());
         } else {
-            //水平的画垂直线
             outRect.set(0, 0, mDivider.getIntrinsicWidth(), 0);
-        }
-    }
-
-    /**
-     * 垂直方向 画水平线
-     *
-     * @param c
-     * @param parent
-     */
-    private void drawVertical(Canvas c, RecyclerView parent) {
-        int left = parent.getPaddingLeft();
-        int right = parent.getWidth() - parent.getPaddingRight(); //减去内边距
-        int childCount = parent.getChildCount();
-        for (int i = 0; i < childCount; i++) {
-            View child = parent.getChildAt(i);
-            RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) child.getLayoutParams();
-            int top = child.getBottom() + params.bottomMargin + (int) ViewCompat.getTranslationY(child);//可能有外边距 或 者有偏移的动画
-            int bottom = top + mDivider.getIntrinsicHeight();
-            mDivider.setBounds(left, top, right, bottom);
-            mDivider.draw(c);
-        }
-    }
-
-
-    /**
-     * 水平方向 画垂直线
-     *
-     * @param c
-     * @param parent
-     */
-    private void drawHorizontal(Canvas c, RecyclerView parent) {
-        int top = parent.getPaddingTop();
-        int bottom = parent.getHeight() - parent.getPaddingBottom(); //减去内边距
-        int childCount = parent.getChildCount();
-        for (int i = 0; i < childCount; i++) {
-            View child = parent.getChildAt(i);
-            RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) child.getLayoutParams();
-            int left = child.getRight() + params.rightMargin + (int) ViewCompat.getTranslationX(child);//可能有外边距 或 者有偏移的动画
-            int right = left + mDivider.getIntrinsicWidth();
-            mDivider.setBounds(left, top, right, bottom);
-            mDivider.draw(c);
         }
     }
 }

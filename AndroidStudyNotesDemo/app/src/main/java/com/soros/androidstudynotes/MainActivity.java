@@ -16,8 +16,14 @@ import android.widget.TextView;
 
 
 import com.soros.androidstudynotes.activity.LifeCycleActivity;
+import com.soros.androidstudynotes.broadcast.BroadcastStudyActivity;
+import com.soros.androidstudynotes.handler.HandlerStudyActivity;
 import com.soros.androidstudynotes.service.ServiceStudyActivity;
+import com.soros.androidstudynotes.thread.ThreadStudyActivity;
 import com.soros.androidstudynotes.utils.ShortcutUtil;
+import com.soros.androidstudynotes.webview.WebViewActivity;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
@@ -55,14 +61,17 @@ public class MainActivity extends AppCompatActivity implements BaseViewHolder.On
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setAdapter(new MenuAdapter(getApplicationContext(), this));
+        mRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL_LIST));
     }
 
     private void initDatas() {
         mItems = new ArrayList<>();
-        mItems.add(new MenuEntity(R.string.activity, LifeCycleActivity.class));
-        mItems.add(new MenuEntity(R.string.service, ServiceStudyActivity.class));
-        mItems.add(new MenuEntity(R.string.activity, LifeCycleActivity.class));
-        mItems.add(new MenuEntity(R.string.activity, LifeCycleActivity.class));
+        mItems.add(new MenuEntity(R.string.activity, R.string.activity_des, LifeCycleActivity.class));
+        mItems.add(new MenuEntity(R.string.service, R.string.service_des, ServiceStudyActivity.class));
+        mItems.add(new MenuEntity(R.string.broadcast, R.string.broadcast_des, BroadcastStudyActivity.class));
+        mItems.add(new MenuEntity(R.string.handler, R.string.handler_des, HandlerStudyActivity.class));
+        mItems.add(new MenuEntity(R.string.thread, R.string.thread_des, ThreadStudyActivity.class));
+        mItems.add(new MenuEntity(R.string.webview, R.string.webview_des, WebViewActivity.class));
     }
 
     @Override
@@ -85,10 +94,13 @@ public class MainActivity extends AppCompatActivity implements BaseViewHolder.On
     public static class MenuEntity {
         @StringRes
         int menuStrId;
+        @StringRes
+        int contentStrId;
         Class cls;
 
-        public MenuEntity(int menuStrId, Class<?> cls) {
+        public MenuEntity(int menuStrId, int contentStrId, Class<?> cls) {
             this.menuStrId = menuStrId;
+            this.contentStrId = contentStrId;
             this.cls = cls;
         }
     }
@@ -121,16 +133,19 @@ public class MainActivity extends AppCompatActivity implements BaseViewHolder.On
 
         public class MenuViewHolder extends BaseViewHolder<MenuEntity> {
 
-            TextView mTextView;
+            TextView mTitleText;
+            TextView mContentText;
 
             public MenuViewHolder(@NonNull Context context, LayoutInflater layoutInflater, @LayoutRes int resId, ViewGroup viewGroup, OnRecyclerItemClick itemClick) {
                 super(context, layoutInflater, resId, viewGroup, itemClick);
-                mTextView = (TextView) itemView.findViewById(R.id.textView);
+                mTitleText = (TextView) itemView.findViewById(R.id.titleText);
+                mContentText = (TextView) itemView.findViewById(R.id.contentText);
             }
 
             @Override
             public void bindData(MenuEntity menuItem, int position) {
-                mTextView.setText(menuItem.menuStrId);
+                mTitleText.setText(menuItem.menuStrId);
+                mContentText.setText(menuItem.contentStrId);
             }
         }
     }

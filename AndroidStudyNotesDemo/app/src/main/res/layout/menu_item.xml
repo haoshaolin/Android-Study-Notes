@@ -1,12 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="48dp"
-    android:textSize="18sp"
+    android:layout_height="wrap_content"
+    android:clickable="true"
+    android:background="@drawable/recycler_bg"
+    android:paddingTop="8dp"
     android:paddingLeft="16dp"
-    android:gravity="center_vertical"
-    android:textColor="#75b93e"
-    android:id="@+id/textView"
-    android:background="?android:attr/selectableItemBackground">
+    android:paddingRight="16dp"
+    android:paddingBottom="8dp">
 
-</TextView>
+    <TextView
+        android:id="@+id/titleText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:maxLines="1"
+        android:text="title"
+        android:textColor="#880e4f"
+        android:textSize="18sp">
+    </TextView>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/titleText"
+        android:textSize="14sp"
+        android:text="content"
+        android:id="@+id/contentText"
+        android:textColor="#a1887f"
+        android:maxLines="2"/>
+</RelativeLayout>

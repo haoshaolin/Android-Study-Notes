@@ -78,15 +78,51 @@
         </activity>
         <activity
             android:name=".webview.WebViewActivity"
+            android:label="WebView Study"
             android:process=":web" />
 
         <service
-            android:name=".service.MainService"
+            android:name=".service.LifeCycleService"
             android:enabled="true"
             android:exported="false" />
 
-        <activity android:name=".service.ServiceStudyActivity"
-            android:label="Service Study"></activity>
+        <activity
+            android:name=".service.ServiceStudyActivity"
+            android:label="Service Study"
+            android:screenOrientation="portrait" />
+        <activity android:name=".handler.HandlerStudyActivity"
+            android:label="Handler Study"
+            android:screenOrientation="portrait"/>
+
+        <service
+            android:name=".service.LocalBindService"
+            android:enabled="true"
+            android:exported="false" />
+        <service
+            android:name=".service.LocalStartService"
+            android:enabled="true"
+            android:exported="false" />
+
+        <activity
+            android:name=".service.ServiceStudy2Activity"
+            android:label="Service Study2"
+            android:screenOrientation="portrait" />
+
+        <service
+            android:name=".service.StudyIntentService"
+            android:exported="false" />
+
+        <activity
+            android:name=".broadcast.BroadcastStudyActivity"
+            android:label="Broadcast Study"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".thread.ThreadStudyActivity"
+            android:label="Thread Study"
+            android:screenOrientation="portrait"></activity><!-- ATTENTION: This was auto-generated to add Google Play services to your project for
+     App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
     </application>
 
 </manifest>

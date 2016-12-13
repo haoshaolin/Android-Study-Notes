@@ -4,10 +4,22 @@
 
 
     <string name="activity">Activity</string>
+    <string name="activity_des">演示Activity什么周期，启动模式，数据保存、恢复，别名，外部启动</string>
     <string name="service">Service</string>
+    <string name="service_des">演示Service的两种形式（启动、绑定），生命周期，IntentService，AIDL</string>
+    <string name="broadcast">BroadcastReceiver</string>
+    <string name="broadcast_des">演示广播接收、发送，优先级，有序广播，广播机制</string>
+    <string name="thread">Thread</string>
+    <string name="thread_des">线程、线程池</string>
+    <string name="handler">Handler</string>
+    <string name="handler_des">Handler机制、HandlerThread</string>
+    <string name="webview">WebView</string>
+    <string name="webview_des">WebView参数配置，JS-Native交互，单独进程开启</string>
 
     <string name="life_cycle_des">演示Activity生命周期\n启动模式为standard</string>
     <string name="single_top_des">我的启动模式为singleTop</string>
     <string name="single_task_des">我的启动模式为singleTask</string>
     <string name="single_instance_des">我的启动模式为singleInstance</string>
+
+    <string name="service_life_cycle_des">如果通过startService启动服务并且有组件绑定了服务或者绑定后调用了startService，只有所有组件取消绑定后stopService或者调用stopService后所有组件取消绑定才会停止服务。</string>
 </resources>
