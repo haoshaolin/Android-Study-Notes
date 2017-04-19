@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.soros.androidstudynotes.animation.AnimationActivity"
+    tools:showIn="@layout/activity_animation">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp">
+
+        <Button
+            android:id="@+id/view_animation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:background="#9f31ff"
+            android:text="@string/view_animation"
+            android:onClick="startViewAnimation"
+            android:textColor="#ffffff" />
+
+        <Button
+            android:id="@+id/drawable_animation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/view_animation"
+            android:layout_marginTop="16dp"
+            android:background="#9fcc31"
+            android:onClick="startDrawableAnimation"
+            android:text="@string/drawable_animation"
+            android:textColor="#ffffff" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/drawable_animation"
+            android:layout_marginTop="16dp"
+            android:background="#ff3131"
+            android:onClick="startPropertyAnimation"
+            android:text="@string/property_animation"
+            android:textColor="#ffffff" />
+    </RelativeLayout>
+</android.support.v4.widget.NestedScrollView>

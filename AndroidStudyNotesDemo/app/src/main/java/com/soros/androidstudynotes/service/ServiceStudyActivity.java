@@ -4,19 +4,19 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
-import android.net.Uri;
+import android.os.Handler;
 import android.os.IBinder;
+import android.os.Message;
+import android.os.Messenger;
+import android.os.RemoteException;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
-import com.google.android.gms.appindexing.Action;
-import com.google.android.gms.appindexing.AppIndex;
-import com.google.android.gms.appindexing.Thing;
-import com.google.android.gms.common.api.GoogleApiClient;
 import com.soros.androidstudynotes.R;
+import com.soros.model.MessengerData;
 
 public class ServiceStudyActivity extends AppCompatActivity {
     private final String TAG = ServiceStudyActivity.class.getSimpleName();
@@ -51,32 +51,65 @@ public class ServiceStudyActivity extends AppCompatActivity {
             mLifeCycleServiceBound = true;
         }
 
+        /**
+         * Android 系统会在与服务的连接意外中断时（例如当服务崩溃或被终止时）调用该方法。
+         * 当客户端取消绑定时，系统“不会”调用该方法。
+         */
         @Override
         public void onServiceDisconnected(ComponentName name) {
             Log.d(TAG, "=========LifeCycleService onServiceDisconnected=========");
             mLifeCycleServiceBound = false;
         }
     };
-    /**
-     * ATTENTION: This was auto-generated to implement the App Indexing API.
-     * See https://g.co/AppIndexing/AndroidStudio for more information.
-     */
-    private GoogleApiClient client;
+
+    /** Messenger for communicating with the service. */
+    Messenger mMessengerService = null;
+    boolean mMessengerServiceBound = false;
+    private ServiceConnection mMessengerServiceConnection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            Log.d(TAG, "=========MessengerService onServiceConnected=========");
+            mMessengerService = new Messenger(service);
+            mMessengerServiceBound = true;
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+            Log.d(TAG, "=========MessengerService onServiceDisconnected=========");
+            mMessengerServiceBound = false;
+        }
+    };
+    Messenger mClientMessenger = new Messenger(new ClientHandler());
+    class ClientHandler extends Handler {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case MessengerService.MSG_SAY_HELLO_REPLY:
+//                    MessengerData messengerData = (MessengerData) msg.obj;
+                    Snackbar.make(findViewById(R.id.callMessengerService), "Client received msg : " /*+ messengerData.data*/, Snackbar.LENGTH_LONG).show();
+                    break;
+                default:
+                    super.handleMessage(msg);
+            }
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_service_study);
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        bindService(new Intent(this, MessengerService.class), mMessengerServiceConnection,
+                Context.BIND_AUTO_CREATE);
     }
 
     @Override
     protected void onStop() {
-        super.onStop();// ATTENTION: This was auto-generated to implement the App Indexing API.
-// See https://g.co/AppIndexing/AndroidStudio for more information.
-        AppIndex.AppIndexApi.end(client, getIndexApiAction());
+        super.onStop();
         if (mBindServiceBound) {
             unbindService(mBindConnection);
             mBindServiceBound = false;
@@ -86,10 +119,13 @@ public class ServiceStudyActivity extends AppCompatActivity {
             unbindService(mLifeCycleConnection);
             mLifeCycleServiceBound = false;
         }
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client.disconnect();
+
+        if (mMessengerServiceBound) {
+            unbindService(mMessengerServiceConnection);
+            mMessengerServiceBound = false;
+        }
     }
+
 
     public void onStartService(View view) {
         Intent intent = new Intent();
@@ -137,6 +173,25 @@ public class ServiceStudyActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * 向MessageService发送消息
+     * 远程调用参见demotest
+     * @param view
+     */
+    public void sayHello(View view) {
+        if(mMessengerServiceBound) {
+            Message msg = Message.obtain(null, MessengerService.MSG_SAY_HELLO, 0, 0);
+            msg.replyTo = mClientMessenger;
+            try {
+                mMessengerService.send(msg);
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+        } else {
+            Snackbar.make(view, "MessengerService is not bound!", Snackbar.LENGTH_SHORT).show();
+        }
+    }
+
     public void onStartLifeCycleService(View view) {
         Intent intent = new Intent();
         intent.setClass(this, LifeCycleService.class);
@@ -177,29 +232,4 @@ public class ServiceStudyActivity extends AppCompatActivity {
         startService(intent);
     }
 
-    /**
-     * ATTENTION: This was auto-generated to implement the App Indexing API.
-     * See https://g.co/AppIndexing/AndroidStudio for more information.
-     */
-    public Action getIndexApiAction() {
-        Thing object = new Thing.Builder()
-                .setName("ServiceStudy Page") // TODO: Define a title for the content shown.
-                // TODO: Make sure this auto-generated URL is correct.
-                .setUrl(Uri.parse("http://[ENTER-YOUR-URL-HERE]"))
-                .build();
-        return new Action.Builder(Action.TYPE_VIEW)
-                .setObject(object)
-                .setActionStatus(Action.STATUS_TYPE_COMPLETED)
-                .build();
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client.connect();
-        AppIndex.AppIndexApi.start(client, getIndexApiAction());
-    }
 }

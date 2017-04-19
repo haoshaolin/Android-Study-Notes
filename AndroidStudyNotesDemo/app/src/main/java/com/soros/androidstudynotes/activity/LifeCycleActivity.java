@@ -6,8 +6,13 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
+
 import com.soros.androidstudynotes.R;
 
+import java.io.File;
+import java.io.FilenameFilter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -98,6 +103,13 @@ public class LifeCycleActivity extends AppCompatActivity {
             };
             mTestThread.start();
         }
+
+        new Thread() {
+            @Override
+            public void run() {
+                super.run();
+            }
+        }.start();
     }
 
     @Override
@@ -134,5 +146,39 @@ public class LifeCycleActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         Log.d(TAG, "==============onDestroy()=============");
+    }
+
+    FilenameFilter filenameFilter = new FilenameFilter() {
+        @Override
+        public boolean accept(File dir, String name) {
+            return name.endsWith(".txt");
+        }
+    };
+    /**
+     *  查找方法
+     * @param path
+     */
+    public List search(String path){
+        File f=new File(path+"\\");
+        List results = new ArrayList();
+        File[] files = f.listFiles(filenameFilter);
+        if(files != null){
+            for(int i=0;i<files.length;i++){
+                File sf=files[i];
+                //如果sf是文件夹则继续查找
+                if(sf.isDirectory()){
+                    search(sf.getPath());
+                }else{
+                    results.add(sf.getAbsolutePath());
+                    //如果符合过滤条件则输到文件中
+                    /*if(filter.accept(sf)){
+                        fileSet.add(sf);
+                        pw.println(sf.getPath());
+                        pw.flush();
+                    }*/
+                }
+            }
+        }
+        return results;
     }
 }

@@ -36,7 +36,9 @@ public class LocalBindService extends Service {
     }
 
     /**
-     * 如果您的服务已启动并接受绑定，则当系统调用您的 onUnbind() 方法时，如果您想在客户端下一次绑定到服务时接收 onRebind() 调用，则可选择返回 true
+     * 如果您的服务已启动并接受绑定，则当系统调用您的 onUnbind() 方法时，
+     * 如果您想在客户端下一次绑定到服务时接收 onRebind() 调用，则可选择
+     * 返回 true
      * @param intent
      * @return
      */

@@ -4,14 +4,15 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.ArrayMap;
 import android.util.Log;
+import android.util.SparseArray;
 
 import com.soros.androidstudynotes.R;
 import com.soros.androidstudynotes.service.ServiceStudyActivity;
 
 public class HandlerStudyActivity extends AppCompatActivity {
     private final String TAG = HandlerStudyActivity.class.getSimpleName();
-
     private Handler mHander;
 
     @Override

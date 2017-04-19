@@ -6,6 +6,13 @@
     <uses-permission android:name="com.android.launcher.permission.UNINSTALL_SHORTCUT" />
     <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS" />
 
+    <permission
+        android:name="com.soros.study.permission.service.MESSENGER_SERVICE"
+        android:protectionLevel="normal" />
+    <permission
+        android:name="com.soros.study.permission.service.REMOTE_SERVICE"
+        android:protectionLevel="normal" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -90,9 +97,10 @@
             android:name=".service.ServiceStudyActivity"
             android:label="Service Study"
             android:screenOrientation="portrait" />
-        <activity android:name=".handler.HandlerStudyActivity"
+        <activity
+            android:name=".handler.HandlerStudyActivity"
             android:label="Handler Study"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
 
         <service
             android:name=".service.LocalBindService"
@@ -115,14 +123,47 @@
         <activity
             android:name=".broadcast.BroadcastStudyActivity"
             android:label="Broadcast Study"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".thread.ThreadStudyActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".thread.ThreadStudyActivity"
             android:label="Thread Study"
-            android:screenOrientation="portrait"></activity><!-- ATTENTION: This was auto-generated to add Google Play services to your project for
-     App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->
-        <meta-data
-            android:name="com.google.android.gms.version"
-            android:value="@integer/google_play_services_version" />
+            android:screenOrientation="portrait" />
+
+        <service
+            android:name=".service.MessengerService"
+            android:enabled="true"
+            android:exported="true"
+            android:permission="com.soros.study.permission.service.MESSENGER_SERVICE">
+            <intent-filter>
+                <action android:name="com.soros.study.action.MESSENGER_SERVICE" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </service>
+        <service
+            android:name=".service.RemoteService"
+            android:enabled="true"
+            android:exported="true"
+            android:permission="com.soros.study.permission.service.REMOTE_SERVICE">
+            <intent-filter>
+                <action android:name="com.soros.study.action.REMOTE_SERVICE" />
+            </intent-filter>
+        </service>
+
+        <activity android:name=".animation.AnimationActivity"
+            android:label="@string/animation"
+            android:theme="@style/AppTheme.NoActionBar" ></activity>
+        <activity
+            android:name=".animation.viewanimation.ViewAnimationActivity"
+            android:label="@string/title_activity_view_animation"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".animation.drawableanimation.DrawableAnimationActivity"
+            android:label="@string/title_activity_drawable_animation"></activity>
+
+        <activity
+            android:name=".animation.propertyanimation.PropertyAnimationActivity"
+            android:label="@string/title_activity_property_animation"></activity>
     </application>
 
 </manifest>

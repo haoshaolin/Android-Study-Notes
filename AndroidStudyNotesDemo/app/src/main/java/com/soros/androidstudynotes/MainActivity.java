@@ -16,14 +16,13 @@ import android.widget.TextView;
 
 
 import com.soros.androidstudynotes.activity.LifeCycleActivity;
+import com.soros.androidstudynotes.animation.AnimationActivity;
 import com.soros.androidstudynotes.broadcast.BroadcastStudyActivity;
 import com.soros.androidstudynotes.handler.HandlerStudyActivity;
 import com.soros.androidstudynotes.service.ServiceStudyActivity;
 import com.soros.androidstudynotes.thread.ThreadStudyActivity;
 import com.soros.androidstudynotes.utils.ShortcutUtil;
 import com.soros.androidstudynotes.webview.WebViewActivity;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
@@ -72,6 +71,7 @@ public class MainActivity extends AppCompatActivity implements BaseViewHolder.On
         mItems.add(new MenuEntity(R.string.handler, R.string.handler_des, HandlerStudyActivity.class));
         mItems.add(new MenuEntity(R.string.thread, R.string.thread_des, ThreadStudyActivity.class));
         mItems.add(new MenuEntity(R.string.webview, R.string.webview_des, WebViewActivity.class));
+        mItems.add(new MenuEntity(R.string.animation, R.string.animation_des, AnimationActivity.class));
     }
 
     @Override
