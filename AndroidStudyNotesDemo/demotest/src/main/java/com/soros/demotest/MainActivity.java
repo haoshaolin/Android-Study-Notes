@@ -19,5 +19,10 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void serviceTest(View view) {
+        Intent intent = new Intent();
+        intent.setClass(this, ServiceTestActivity.class);
+        startActivity(intent);
+    }
 
 }

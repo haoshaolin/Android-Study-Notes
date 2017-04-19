@@ -1,0 +1,1 @@
+Service bind后，没有unbind，发生leak，是否还可以绑定？如果不可以，怎么恢复？？？

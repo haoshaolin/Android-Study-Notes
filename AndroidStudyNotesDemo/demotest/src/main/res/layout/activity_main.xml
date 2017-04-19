@@ -33,15 +33,16 @@
         android:id="@+id/activityTestBtn" />
 
     <Button
-        android:text="other"
+        android:text="Service Test"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/activityTestBtn"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_marginTop="16dp"
-        android:id="@+id/singleTopBtn"
+        android:id="@+id/serviceTestBtn"
         android:textColor="#ffffff"
+        android:onClick="serviceTest"
         android:background="#8abf1f"
         android:layout_alignParentRight="true"
         android:textAllCaps="false"
@@ -51,7 +52,7 @@
         android:text="other"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/singleTopBtn"
+        android:layout_below="@+id/serviceTestBtn"
         android:layout_marginTop="16dp"
         android:id="@+id/singleTaskBtn"
         android:textColor="#ffffff"
